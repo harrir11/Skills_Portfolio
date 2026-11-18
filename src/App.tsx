@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import type { CSSProperties } from "react";
+import portrait from "./pixil-frame-0.png";
 
 type Link = {
   label: string;
@@ -12,6 +14,7 @@ type Project = {
   summary: string;
   stack: string[];
   links?: Link[];
+  image?: { src: string; alt: string };
 };
 
 const projects: Project[] = [
@@ -21,6 +24,7 @@ const projects: Project[] = [
     summary:
       "Hi! I’m Rebecca. I’m a coder and an artist. This is my playground for learning the most in-demand skills, as well as having fun. Let me know if you want to work together :)",
     stack: [],
+    image: { src: portrait, alt: "Pixel art portrait of Rebecca" },
     links: [
       {
         label: "Email",
@@ -82,6 +86,19 @@ export default function App() {
 
   const current = projects.find((p) => p.id === active) ?? projects[0];
 
+  const textRef = useRef<HTMLDivElement>(null);
+  const [textHeight, setTextHeight] = useState(0);
+
+  useLayoutEffect(() => {
+    const el = textRef.current;
+    if (!el) return;
+    const update = () => setTextHeight(el.offsetHeight);
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [current.id]);
+
   const select = (id: string) => {
     setActive(id);
     window.location.hash = id;
@@ -113,27 +130,41 @@ export default function App() {
         id={`panel-${current.id}`}
         aria-labelledby={`tab-${current.id}`}
       >
-        <h2>{current.label}</h2>
-        <p>{current.summary}</p>
-        {current.links && (
-          <ul className="links">
-            {current.links.map((l) => (
-              <li key={l.label}>
-                {l.label}:{" "}
-                <a href={l.href} target="_blank" rel="noreferrer">
-                  {l.text}
-                </a>
-              </li>
-            ))}
-          </ul>
-        )}
-        {current.stack.length > 0 && (
-          <ul className="stack">
-            {current.stack.map((s) => (
-              <li key={s}>{s}</li>
-            ))}
-          </ul>
-        )}
+        <div
+          className={current.image ? "intro" : undefined}
+          style={{ "--text-height": `${textHeight}px` } as CSSProperties}
+        >
+          {current.image && (
+            <img
+              className="portrait"
+              src={current.image.src}
+              alt={current.image.alt}
+            />
+          )}
+          <div className="text" ref={textRef}>
+            <h2>{current.label}</h2>
+            <p>{current.summary}</p>
+            {current.links && (
+              <ul className="links">
+                {current.links.map((l) => (
+                  <li key={l.label}>
+                    {l.label}:{" "}
+                    <a href={l.href} target="_blank" rel="noreferrer">
+                      {l.text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {current.stack.length > 0 && (
+              <ul className="stack">
+                {current.stack.map((s) => (
+                  <li key={s}>{s}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
       </section>
     </main>
   );
