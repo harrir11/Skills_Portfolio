@@ -7,10 +7,19 @@ type Link = {
   href: string;
 };
 
+type Point = string | { label: string; text: string };
+
 type Section = {
   title: string;
-  summary: string;
+  meta?: string;
+  summary?: string;
+  points?: Point[];
   stack: string[];
+};
+
+type Group = {
+  heading: string;
+  sections: Section[];
 };
 
 type Project = {
@@ -21,6 +30,7 @@ type Project = {
   links?: Link[];
   image?: { src: string; alt: string };
   sections?: Section[];
+  groups?: Group[];
 };
 
 const projects: Project[] = [
@@ -46,6 +56,151 @@ const projects: Project[] = [
         label: "LinkedIn",
         text: "Rebecca Harris",
         href: "https://www.linkedin.com/in/rebecca-harris-846b711a7/",
+      },
+    ],
+  },
+  {
+    id: "skills",
+    label: "Skills",
+    summary:
+      "Fullstack engineer with production experience in Java, Python and JavaScript. I integrate APIs, automate business workflows and use AI-assisted tools to ship faster, working across teams in Agile.",
+    stack: [],
+    groups: [
+      {
+        heading: "Toolkit",
+        sections: [
+          {
+            title: "Languages & Frameworks",
+            stack: [
+              "Java",
+              "Python",
+              "JavaScript",
+              "SQL",
+              "R",
+              "Spring Boot",
+              "Flask",
+              "Pandas",
+              "Ruby on Rails",
+            ],
+          },
+          {
+            title: "Cloud & Systems",
+            stack: [
+              "AWS (S3, EC2, Lambda)",
+              "Google Cloud",
+              "REST API design",
+              "Distributed systems",
+              "Event-driven architecture",
+            ],
+          },
+          {
+            title: "AI Tools",
+            stack: ["Claude", "Copilot", "AI prompting"],
+          },
+          {
+            title: "Payments",
+            stack: ["Stripe", "Apple Pay", "Google Pay"],
+          },
+          {
+            title: "Data & Reporting",
+            stack: [
+              "ETL/ELT",
+              "Metadata standards",
+              "Cataloging automation",
+              "Tableau/BI",
+              "Dashboards",
+              "A/B testing",
+              "Excel",
+              "PowerPoint",
+            ],
+          },
+          {
+            title: "Monitoring & Testing",
+            stack: [
+              "JMeter",
+              "Splunk",
+              "Performance benchmarking",
+              "Observability & alerting",
+            ],
+          },
+          {
+            title: "Governance & Risk",
+            stack: ["Compliance workflows", "Audit readiness", "Issue management"],
+          },
+          {
+            title: "Ways of Working",
+            stack: [
+              "Agile/Scrum",
+              "Requirement gathering",
+              "Cross-functional collaboration",
+              "Documentation",
+              "Mentoring",
+              "ClickUp",
+            ],
+          },
+        ],
+      },
+      {
+        heading: "Experience",
+        sections: [
+          {
+            title: "UX Product Owner \u00b7 Voxxy",
+            meta: "New York Metropolitan Area \u00b7 Jul 2026 \u2013 Present",
+            points: [
+              "Interview independent artists and stakeholders to gather requirements and shape product decisions.",
+              "Turn backlog ideas into sprint-ready user stories in ClickUp, with acceptance criteria and priorities, through refinement sessions with engineers.",
+              "Researched payment options (Stripe, Apple Pay, Google Pay and Authorize.net) for early implementation.",
+            ],
+            stack: [],
+          },
+          {
+            title: "Full Stack Developer \u00b7 Prudential Financial",
+            meta: "Newark, NJ \u00b7 Jan 2026 \u2013 Jun 2026",
+            points: [
+              "Built and maintained production apps with JavaScript front ends and Python back-end services.",
+              "Built cloud workflows on AWS with event-driven architecture, integrating APIs and backend processes to automate structured settlement operations.",
+              "Sped up development and UI work with AI-assisted coding tools, including Claude.",
+            ],
+            stack: [],
+          },
+          {
+            title: "Rotational Associate \u00b7 Prudential Financial",
+            meta: "Newark, NJ \u00b7 2023 \u2013 2025",
+            points: [
+              {
+                label: "Data Governance Engineer",
+                text: "Built Python ingestion pipelines for financial datasets and boosted cataloging productivity 7\u00d7 through automation and metadata standards. Contributed to BI reporting whose insights correlated with an 8% quarter-over-quarter operating income lift.",
+              },
+              {
+                label: "Security Development Engineer",
+                text: "Built consistent authN/authZ patterns for global APIs across Japan and Brazil, benchmarked performance with JMeter and Splunk, and contributed to multi-region compliance architecture, including auditability and PII handling.",
+              },
+              {
+                label: "Lead Management & CRM Engineer",
+                text: "Designed and deployed a Spring Boot microservice integrating enterprise lead sources; its automated handoffs raised sales 18% per quarter. Improved REST API reliability through observability, instrumentation and alerting.",
+              },
+            ],
+            stack: [],
+          },
+          {
+            title: "Global Tech Intern \u00b7 Prudential Financial",
+            meta: "Newark, NJ \u00b7 Jun 2022 \u2013 Aug 2022",
+            points: [
+              "Wrote testing scripts, helped debug backend services and documented coding standards and quality practices.",
+            ],
+            stack: [],
+          },
+        ],
+      },
+      {
+        heading: "Education",
+        sections: [
+          {
+            title: "B.S. Computer Science \u00b7 The College of New Jersey",
+            meta: "Graduated May 2023",
+            stack: [],
+          },
+        ],
       },
     ],
   },
@@ -89,6 +244,43 @@ const projects: Project[] = [
 function tabFromHash(): string {
   const hash = window.location.hash.slice(1);
   return projects.some((p) => p.id === hash) ? hash : projects[0].id;
+}
+
+function SectionBlock({
+  section,
+  level,
+}: {
+  section: Section;
+  level: "h3" | "h4";
+}) {
+  const Heading = level;
+  return (
+    <div className="section">
+      <Heading>{section.title}</Heading>
+      {section.meta && <p className="meta">{section.meta}</p>}
+      {section.summary && <p>{section.summary}</p>}
+      {section.points && (
+        <ul className="points">
+          {section.points.map((point) =>
+            typeof point === "string" ? (
+              <li key={point}>{point}</li>
+            ) : (
+              <li key={point.label}>
+                <strong>{point.label}:</strong> {point.text}
+              </li>
+            )
+          )}
+        </ul>
+      )}
+      {section.stack.length > 0 && (
+        <ul className="stack">
+          {section.stack.map((s) => (
+            <li key={s}>{s}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
 }
 
 export default function App() {
@@ -164,16 +356,18 @@ export default function App() {
               </ul>
             )}
             {current.sections?.map((section) => (
-              <div className="section" key={section.title}>
-                <h3>{section.title}</h3>
-                <p>{section.summary}</p>
-                {section.stack.length > 0 && (
-                  <ul className="stack">
-                    {section.stack.map((s) => (
-                      <li key={s}>{s}</li>
-                    ))}
-                  </ul>
-                )}
+              <SectionBlock key={section.title} section={section} level="h3" />
+            ))}
+            {current.groups?.map((group) => (
+              <div className="group" key={group.heading}>
+                <h3>{group.heading}</h3>
+                {group.sections.map((section) => (
+                  <SectionBlock
+                    key={section.title}
+                    section={section}
+                    level="h4"
+                  />
+                ))}
               </div>
             ))}
           </div>
