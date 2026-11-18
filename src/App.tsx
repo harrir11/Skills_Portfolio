@@ -246,8 +246,8 @@ const projects: Project[] = [
     stack: [],
   },
   {
-    id: "wack",
-    label: "Wack",
+    id: "creative-code",
+    label: "Creative Code",
     summary: "Miscellaneous fun designs coming soon.",
     stack: [],
   },
