@@ -59,12 +59,6 @@ const projects: Project[] = [
     stack: [],
   },
   {
-    id: "creative-tools",
-    label: "Creative Tools",
-    summary: "Video editing, Adobe and other creative work coming soon.",
-    stack: ["Video editing", "Adobe"],
-  },
-  {
     id: "wack",
     label: "Wack",
     summary: "Miscellaneous fun designs coming soon.",
