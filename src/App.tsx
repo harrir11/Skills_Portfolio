@@ -5,6 +5,7 @@ type Link = {
   label: string;
   text: string;
   href: string;
+  download?: boolean;
 };
 
 type Point = string | { label: string; text: string };
@@ -65,6 +66,14 @@ const projects: Project[] = [
     summary:
       "Fullstack engineer with production experience in Java, Python and JavaScript. I integrate APIs, automate business workflows and use AI-assisted tools to ship faster, working across teams in Agile.",
     stack: [],
+    links: [
+      {
+        label: "Resume",
+        text: "Download my resume (PDF)",
+        href: "/Rebecca_Harris_Fullstack_Resume_11_2026.pdf",
+        download: true,
+      },
+    ],
     groups: [
       {
         heading: "Toolkit",
@@ -205,8 +214,8 @@ const projects: Project[] = [
     ],
   },
   {
-    id: "upskilling",
-    label: "Upskilling Projects",
+    id: "projects",
+    label: "Projects",
     summary: "Hands-on projects for learning in-demand skills.",
     stack: [],
     sections: [
@@ -341,7 +350,12 @@ export default function App() {
                 {current.links.map((l) => (
                   <li key={l.label}>
                     {l.label}:{" "}
-                    <a href={l.href} target="_blank" rel="noreferrer">
+                    <a
+                      href={l.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      download={l.download || undefined}
+                    >
                       {l.text}
                     </a>
                   </li>
