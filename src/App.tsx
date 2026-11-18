@@ -1,13 +1,39 @@
 import { useEffect, useState } from "react";
 
+type Link = {
+  label: string;
+  text: string;
+  href: string;
+};
+
 type Project = {
   id: string;
   label: string;
   summary: string;
   stack: string[];
+  links?: Link[];
 };
 
 const projects: Project[] = [
+  {
+    id: "welcome",
+    label: "Welcome!",
+    summary:
+      "Hi! I’m Rebecca. I’m a coder and an artist. This is my playground for learning the most in-demand skills, as well as having fun. Let me know if you want to work together :)",
+    stack: [],
+    links: [
+      {
+        label: "Email",
+        text: "rebecca.mare.harris@gmail.com",
+        href: "mailto:rebecca.mare.harris@gmail.com",
+      },
+      {
+        label: "GitHub",
+        text: "harrir11",
+        href: "https://github.com/harrir11",
+      },
+    ],
+  },
   {
     id: "container-fun",
     label: "Container Fun",
@@ -95,6 +121,18 @@ export default function App() {
       >
         <h2>{current.label}</h2>
         <p>{current.summary}</p>
+        {current.links && (
+          <ul className="links">
+            {current.links.map((l) => (
+              <li key={l.label}>
+                {l.label}:{" "}
+                <a href={l.href} target="_blank" rel="noreferrer">
+                  {l.text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
         {current.stack.length > 0 && (
           <ul className="stack">
             {current.stack.map((s) => (
