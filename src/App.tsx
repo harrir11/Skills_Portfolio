@@ -36,6 +36,11 @@ const projects: Project[] = [
         text: "harrir11",
         href: "https://github.com/harrir11",
       },
+      {
+        label: "LinkedIn",
+        text: "Rebecca Harris",
+        href: "https://www.linkedin.com/in/rebecca-harris-846b711a7/",
+      },
     ],
   },
   {
