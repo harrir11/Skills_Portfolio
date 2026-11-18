@@ -106,7 +106,7 @@ export default function App() {
 
   return (
     <main className="page">
-      <h1>Skills Portfolio</h1>
+      <h1>Rebecca Harris</h1>
 
       <nav className="tabs" role="tablist" aria-label="Projects">
         {projects.map((p) => (
