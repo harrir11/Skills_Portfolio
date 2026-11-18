@@ -17,8 +17,16 @@ body {
   padding: 48px 24px;
 }
 
+h1,
+h2 {
+  font-family: "VT323", monospace;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
 h1 {
-  font-size: 2rem;
+  font-size: 3.5rem;
+  line-height: 1;
   margin: 0 0 32px;
 }
 
@@ -60,6 +68,8 @@ h1 {
 }
 
 .panel h2 {
+  font-size: 2.5rem;
+  line-height: 1;
   margin-top: 0;
 }
 
