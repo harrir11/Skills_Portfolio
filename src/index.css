@@ -107,11 +107,11 @@ a:hover {
 .intro {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 16px;
 }
 
 .portrait {
-  height: calc(var(--text-height) * 1.25 + 50px);
+  height: calc(var(--text-height) * 1.25 + 100px);
   width: auto;
   flex-shrink: 0;
   image-rendering: pixelated;
@@ -125,11 +125,11 @@ a:hover {
   .intro {
     flex-direction: column;
     align-items: flex-start;
-    gap: 24px;
+    gap: 12px;
   }
 
   .portrait {
     height: auto;
-    width: 250px;
+    width: 300px;
   }
 }
