@@ -26,7 +26,7 @@ type Group = {
 type Project = {
   id: string;
   label: string;
-  summary: string;
+  summary: string | string[];
   stack: string[];
   links?: Link[];
   image?: { src: string; alt: string };
@@ -216,7 +216,10 @@ const projects: Project[] = [
   {
     id: "projects",
     label: "Projects",
-    summary: "Hands-on projects for learning in-demand skills.",
+    summary: [
+      "My background as a software developer has taught me the fundamentals of coding, agile development, API integration, cloud workflows on AWS, data pipelines and testing.",
+      "Now that we live in the AI Revolution, I\u2019ve been combining my past experience with new skills to pivot into AI engineering and forward-deployed engineering. I\u2019m also using projects to expand my knowledge in DevOps tools like Docker and Kubernetes. I\u2019m looking to contribute to open-source green AI projects.",
+    ],
     stack: [],
     sections: [
       {
@@ -344,7 +347,12 @@ export default function App() {
           )}
           <div className="text">
             <h2>{current.label}</h2>
-            <p>{current.summary}</p>
+            {(Array.isArray(current.summary)
+              ? current.summary
+              : [current.summary]
+            ).map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
             {current.links && (
               <ul className="links">
                 {current.links.map((l) => (
