@@ -8,6 +8,12 @@ type Link = {
   href: string;
 };
 
+type Section = {
+  title: string;
+  summary: string;
+  stack: string[];
+};
+
 type Project = {
   id: string;
   label: string;
@@ -15,6 +21,7 @@ type Project = {
   stack: string[];
   links?: Link[];
   image?: { src: string; alt: string };
+  sections?: Section[];
 };
 
 const projects: Project[] = [
@@ -44,22 +51,27 @@ const projects: Project[] = [
     ],
   },
   {
-    id: "container-fun",
-    label: "Container Fun",
-    summary: "Project write-up coming soon.",
-    stack: ["Docker", "Kubernetes"],
-  },
-  {
-    id: "llm-rag",
-    label: "LLM/RAG Project",
-    summary: "Project write-up coming soon.",
-    stack: ["LLM", "RAG"],
-  },
-  {
-    id: "go",
-    label: "Go project",
-    summary: "Project write-up coming soon.",
-    stack: ["Go"],
+    id: "upskilling",
+    label: "Upskilling Projects",
+    summary: "Hands-on projects for learning in-demand skills.",
+    stack: [],
+    sections: [
+      {
+        title: "Container Fun",
+        summary: "Project write-up coming soon.",
+        stack: ["Docker", "Kubernetes"],
+      },
+      {
+        title: "LLM/RAG Project",
+        summary: "Project write-up coming soon.",
+        stack: ["LLM", "RAG"],
+      },
+      {
+        title: "Go Project",
+        summary: "Project write-up coming soon.",
+        stack: ["Go"],
+      },
+    ],
   },
   {
     id: "open-source",
@@ -168,6 +180,19 @@ export default function App() {
                 ))}
               </ul>
             )}
+            {current.sections?.map((section) => (
+              <div className="section" key={section.title}>
+                <h3>{section.title}</h3>
+                <p>{section.summary}</p>
+                {section.stack.length > 0 && (
+                  <ul className="stack">
+                    {section.stack.map((s) => (
+                      <li key={s}>{s}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </section>
