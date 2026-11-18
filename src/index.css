@@ -88,6 +88,47 @@ h1 {
   margin: 0 0 12px;
 }
 
+.section .meta {
+  margin: 0 0 8px;
+  opacity: 0.7;
+  font-size: 0.95rem;
+}
+
+.section .stack {
+  margin: 8px 0 0;
+}
+
+.points {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.points li {
+  margin-bottom: 6px;
+}
+
+.group {
+  margin-top: 40px;
+}
+
+.group > h3 {
+  font-size: 2rem;
+  line-height: 1;
+  margin: 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #fff;
+}
+
+.group .section {
+  margin-top: 20px;
+}
+
+.group h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 2px;
+}
+
 .stack {
   display: flex;
   flex-wrap: wrap;
