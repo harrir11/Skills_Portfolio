@@ -218,7 +218,7 @@ const projects: Project[] = [
     label: "Projects",
     summary: [
       "My background as a software developer has taught me the fundamentals of coding, agile development, API integration, cloud workflows on AWS, data pipelines and testing.",
-      "Now that we live in the AI Revolution, I\u2019ve been combining my past experience with new skills to pivot into AI engineering and forward-deployed engineering. I\u2019m also using projects to expand my knowledge in DevOps tools like Docker and Kubernetes. I\u2019m looking to contribute to open-source green AI projects.",
+      "Now that we live in the AI Revolution, I\u2019ve been combining my past experience with new skills to pivot into AI engineering. I\u2019m also using projects to expand my knowledge in DevOps tools like Docker and Kubernetes. I\u2019m looking to contribute to open-source green AI projects.",
     ],
     stack: [],
     sections: [
