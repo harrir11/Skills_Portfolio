@@ -99,3 +99,32 @@ a {
 .links li {
   margin-bottom: 4px;
 }
+
+.intro {
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+}
+
+.portrait {
+  height: var(--text-height);
+  width: auto;
+  flex-shrink: 0;
+  image-rendering: pixelated;
+}
+
+.text > :last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 600px) {
+  .intro {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .portrait {
+    height: auto;
+    width: 160px;
+  }
+}
