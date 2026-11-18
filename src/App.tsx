@@ -9,8 +9,8 @@ type Project = {
 
 const projects: Project[] = [
   {
-    id: "docker-kubernetes",
-    label: "Docker and Kubernetes Project",
+    id: "container-fun",
+    label: "Container Fun",
     summary: "Project write-up coming soon.",
     stack: ["Docker", "Kubernetes"],
   },
@@ -27,9 +27,21 @@ const projects: Project[] = [
     stack: ["Go"],
   },
   {
-    id: "fun",
-    label: "Fun Projects",
-    summary: "Project write-ups coming soon.",
+    id: "open-source",
+    label: "Open Source Contributions",
+    summary: "Contributions coming soon.",
+    stack: [],
+  },
+  {
+    id: "creative-tools",
+    label: "Creative Tools",
+    summary: "Video editing, Adobe and other creative work coming soon.",
+    stack: ["Video editing", "Adobe"],
+  },
+  {
+    id: "wack",
+    label: "Wack",
+    summary: "Miscellaneous fun designs coming soon.",
     stack: [],
   },
 ];
