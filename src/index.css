@@ -126,7 +126,7 @@ a:hover {
 }
 
 .portrait {
-  height: calc(var(--text-height) * 1.25 + 100px);
+  height: calc(var(--text-height) * 1.25 + 50px);
   width: auto;
   flex-shrink: 0;
   image-rendering: pixelated;
@@ -145,6 +145,6 @@ a:hover {
 
   .portrait {
     height: auto;
-    width: 300px;
+    width: 250px;
   }
 }
