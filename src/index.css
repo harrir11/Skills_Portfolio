@@ -76,3 +76,16 @@ h1 {
   padding: 2px 10px;
   font-size: 0.9rem;
 }
+
+a {
+  color: #fff;
+}
+
+.links {
+  list-style: none;
+  padding: 0;
+}
+
+.links li {
+  margin-bottom: 4px;
+}
