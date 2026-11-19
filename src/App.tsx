@@ -249,7 +249,7 @@ const projects: Project[] = [
       {
         title: "Green AI",
         summary:
-          "As the AI Revolution expands, there is growing discourse about its impact on jobs and the environment. As an engineer and a human on planet Earth, I wanted to learn about green AI, both to reduce my environmental impact and build the skills for an AI future.",
+          "As the AI Revolution expands, there is growing discourse about its impact on jobs and the environment. As an engineer (and a human on planet Earth), I wanted to learn about green AI. Through our work, we can reduce our environmental impact and build skills for an AI future.",
         pointsHeading: "Currently Working On",
         points: [
           {
