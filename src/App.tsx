@@ -259,6 +259,11 @@ const projects: Project[] = [
             href: "https://github.com/mlco2/ecologits",
             text: "EcoLogits tracks the energy consumption and environmental impacts of using generative AI models through APIs.",
           },
+          {
+            label: "Ethical Tech Collab",
+            href: "https://ethical-tech-colab.github.io/website/",
+            text: "A series of open source projects developed by NYU CGA in collaboration with Microsoft.",
+          },
         ],
         stack: [],
       },
