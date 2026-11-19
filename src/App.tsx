@@ -8,12 +8,13 @@ type Link = {
   download?: boolean;
 };
 
-type Point = string | { label: string; text: string };
+type Point = string | { label: string; text: string; href?: string };
 
 type Section = {
   title: string;
   meta?: string;
   summary?: string;
+  pointsHeading?: string;
   points?: Point[];
   stack: string[];
 };
@@ -242,8 +243,29 @@ const projects: Project[] = [
   {
     id: "open-source",
     label: "Open Source Contributions",
-    summary: "Contributions coming soon.",
+    summary: [],
     stack: [],
+    sections: [
+      {
+        title: "Green AI",
+        summary:
+          "As the AI Revolution expands, there is growing discourse about its impact on jobs and the environment. As an engineer and a human on planet Earth, I wanted to learn about green AI, both to reduce my environmental impact and build the skills for an AI future.",
+        pointsHeading: "Currently Working On",
+        points: [
+          {
+            label: "Kepler",
+            href: "https://github.com/sustainable-computing-io/kepler",
+            text: "Sustainable computing using Go and Kubernetes.",
+          },
+          {
+            label: "EcoLogits",
+            href: "https://github.com/mlco2/ecologits",
+            text: "EcoLogits tracks the energy consumption and environmental impacts of using generative AI models through APIs.",
+          },
+        ],
+        stack: [],
+      },
+    ],
   },
   {
     id: "creative-code",
@@ -271,6 +293,9 @@ function SectionBlock({
       <Heading>{section.title}</Heading>
       {section.meta && <p className="meta">{section.meta}</p>}
       {section.summary && <p>{section.summary}</p>}
+      {section.pointsHeading && (
+        <p className="points-heading">{section.pointsHeading}</p>
+      )}
       {section.points && (
         <ul className="points">
           {section.points.map((point) =>
@@ -278,7 +303,17 @@ function SectionBlock({
               <li key={point}>{point}</li>
             ) : (
               <li key={point.label}>
-                <strong>{point.label}:</strong> {point.text}
+                <strong>
+                  {point.href ? (
+                    <a href={point.href} target="_blank" rel="noreferrer">
+                      {point.label}
+                    </a>
+                  ) : (
+                    point.label
+                  )}
+                  :
+                </strong>{" "}
+                {point.text}
               </li>
             )
           )}
