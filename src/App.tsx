@@ -233,11 +233,6 @@ const projects: Project[] = [
         summary: "Project write-up coming soon.",
         stack: ["LLM", "RAG"],
       },
-      {
-        title: "Go Project",
-        summary: "Project write-up coming soon.",
-        stack: ["Go"],
-      },
     ],
   },
   {
