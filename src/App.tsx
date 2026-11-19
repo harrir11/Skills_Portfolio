@@ -12,6 +12,7 @@ type Point = string | { label: string; text: string; href?: string };
 
 type Section = {
   title: string;
+  href?: string;
   meta?: string;
   summary?: string;
   pointsHeading?: string;
@@ -155,6 +156,7 @@ const projects: Project[] = [
         sections: [
           {
             title: "UX Product Owner \u00b7 Voxxy",
+            href: "https://www.voxxypresents.com/artists",
             meta: "New York Metropolitan Area \u00b7 Jul 2026 \u2013 Present",
             points: [
               "Interview independent artists and stakeholders to gather requirements and shape product decisions.",
@@ -263,10 +265,18 @@ const projects: Project[] = [
     ],
   },
   {
-    id: "creative-code",
-    label: "Creative Code",
-    summary: "Miscellaneous fun designs coming soon.",
+    id: "voxxy",
+    label: "Voxxy",
+    summary:
+      "Voxxy is an event management system for organisers and a networking app for artists and anyone interested in the arts. If you\u2019re interested in Voxxy, sign up for our waiting list!",
     stack: [],
+    links: [
+      {
+        label: "Waiting list",
+        text: "voxxypresents.com/artists",
+        href: "https://www.voxxypresents.com/artists",
+      },
+    ],
   },
 ];
 
@@ -285,7 +295,15 @@ function SectionBlock({
   const Heading = level;
   return (
     <div className="section">
-      <Heading>{section.title}</Heading>
+      <Heading>
+        {section.href ? (
+          <a href={section.href} target="_blank" rel="noreferrer">
+            {section.title}
+          </a>
+        ) : (
+          section.title
+        )}
+      </Heading>
       {section.meta && <p className="meta">{section.meta}</p>}
       {section.summary && <p>{section.summary}</p>}
       {section.pointsHeading && (
