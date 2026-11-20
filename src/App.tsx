@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { flushSync } from "react-dom";
 import portrait from "./pixil-frame-0.png";
 
@@ -35,6 +35,7 @@ type Project = {
   image?: { src: string; alt: string };
   sections?: Section[];
   groups?: Group[];
+  content?: ReactNode;
 };
 
 const projects: Project[] = [
@@ -284,6 +285,32 @@ const projects: Project[] = [
       },
     ],
   },
+  {
+    id: "blog",
+    label: "Blog",
+    summary: "My Substack is coming soon.",
+    stack: [],
+  },
+  {
+    id: "sources",
+    label: "Sources",
+    summary:
+      "This website was made using Claude. The pixel art and design choices were human-made.",
+    stack: [],
+    content: (
+      <p>
+        Fonts were sourced from Google Fonts:{" "}
+        <a href="https://fonts.google.com/specimen/VT323" target="_blank" rel="noreferrer">
+          VT323
+        </a>{" "}
+        for the pixel headings and{" "}
+        <a href="https://fonts.google.com/specimen/Figtree" target="_blank" rel="noreferrer">
+          Figtree
+        </a>{" "}
+        for the body text.
+      </p>
+    ),
+  },
 ];
 
 function tabFromHash(): string {
@@ -429,6 +456,7 @@ export default function App() {
             ).map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
+            {current.content}
             {current.links && (
               <ul className="links">
                 {current.links.map((l) => (
