@@ -273,7 +273,7 @@ const projects: Project[] = [
     id: "voxxy",
     label: "Voxxy",
     summary:
-      "Voxxy is an event management system for organisers and a networking app for artists and anyone interested in the arts. If you\u2019re interested in Voxxy, sign up for our waiting list!",
+      "Voxxy is an event management and networking app for the art world. I currently work as a Product Owner researching payment streams. Whether you\u2019re a professional artist, art producer or just an art appreciator: we\u2019ll take you!!",
     stack: [],
     links: [
       {
