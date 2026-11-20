@@ -213,13 +213,17 @@ a:hover {
 #tab-projects { view-transition-name: tab-projects; }
 #tab-open-source { view-transition-name: tab-open-source; }
 #tab-voxxy { view-transition-name: tab-voxxy; }
+#tab-blog { view-transition-name: tab-blog; }
+#tab-sources { view-transition-name: tab-sources; }
 
 ::view-transition-group(tab-indicator),
 ::view-transition-group(tab-welcome),
 ::view-transition-group(tab-skills),
 ::view-transition-group(tab-projects),
 ::view-transition-group(tab-open-source),
-::view-transition-group(tab-voxxy) {
+::view-transition-group(tab-voxxy),
+::view-transition-group(tab-blog),
+::view-transition-group(tab-sources) {
   animation-duration: 0.5s;
   animation-timing-function: linear(
     0, 0.186 3.5%, 0.352 7.1%, 0.496 10.8%, 0.623 14.7%, 0.679 16.7%,
@@ -235,7 +239,9 @@ a:hover {
 ::view-transition-group(tab-skills),
 ::view-transition-group(tab-projects),
 ::view-transition-group(tab-open-source),
-::view-transition-group(tab-voxxy) {
+::view-transition-group(tab-voxxy),
+::view-transition-group(tab-blog),
+::view-transition-group(tab-sources) {
   z-index: 1;
 }
 
