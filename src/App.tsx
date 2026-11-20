@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { flushSync } from "react-dom";
 import portrait from "./pixil-frame-0.png";
 
 type Link = {
@@ -360,8 +361,22 @@ export default function App() {
   const current = projects.find((p) => p.id === active) ?? projects[0];
 
   const select = (id: string) => {
-    setActive(id);
-    window.location.hash = id;
+    const update = () => {
+      flushSync(() => setActive(id));
+      window.location.hash = id;
+    };
+    // Glide the active-tab rectangle with a view transition when supported
+    const start = (
+      document as unknown as {
+        startViewTransition?: (cb: () => void) => unknown;
+      }
+    ).startViewTransition;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (start && !reduceMotion) {
+      start.call(document, update);
+    } else {
+      update();
+    }
   };
 
   return (
