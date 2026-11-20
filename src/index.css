@@ -39,7 +39,10 @@ h1 {
 }
 
 .tab {
-  background: #000;
+  position: relative;
+  z-index: 0;
+  margin-bottom: -1px;
+  background: transparent;
   color: #fff;
   border: 1px solid transparent;
   border-bottom: none;
@@ -53,10 +56,19 @@ h1 {
 }
 
 .tab.active {
-  border-color: #fff;
-  margin-bottom: -1px;
-  background: #000;
   font-weight: 600;
+}
+
+/* Outlined rectangle behind the active tab; slides between tabs via a view transition */
+.tab.active::before {
+  content: "";
+  position: absolute;
+  inset: -1px -1px 0 -1px;
+  border: 1px solid #fff;
+  border-bottom: none;
+  background: #000;
+  z-index: -1;
+  view-transition-name: tab-indicator;
 }
 
 .tab:focus-visible {
@@ -193,4 +205,41 @@ a:hover {
     height: auto;
     width: 250px;
   }
+}
+
+/* Tab glide (view transitions) */
+#tab-welcome { view-transition-name: tab-welcome; }
+#tab-skills { view-transition-name: tab-skills; }
+#tab-projects { view-transition-name: tab-projects; }
+#tab-open-source { view-transition-name: tab-open-source; }
+#tab-voxxy { view-transition-name: tab-voxxy; }
+
+::view-transition-group(tab-indicator),
+::view-transition-group(tab-welcome),
+::view-transition-group(tab-skills),
+::view-transition-group(tab-projects),
+::view-transition-group(tab-open-source),
+::view-transition-group(tab-voxxy) {
+  animation-duration: 0.5s;
+  animation-timing-function: linear(
+    0, 0.186 3.5%, 0.352 7.1%, 0.496 10.8%, 0.623 14.7%, 0.679 16.7%,
+    0.732 18.8%, 0.78 20.9%, 0.821 23%, 0.86 25.2%, 0.895 27.5%, 0.925 29.8%,
+    0.951 32.2%, 0.97 34.2%, 0.986 36.3%, 1 38.5%, 1.012 40.7%, 1.021 43%,
+    1.028 45.4%, 1.033 48%, 1.036 50.7%, 1.037 54.8%, 1.034 59.6%,
+    1.012 76.6%, 1.004 84.2%, 1.001 91.3%, 1
+  );
+}
+
+/* Keep tab labels above the sliding rectangle */
+::view-transition-group(tab-welcome),
+::view-transition-group(tab-skills),
+::view-transition-group(tab-projects),
+::view-transition-group(tab-open-source),
+::view-transition-group(tab-voxxy) {
+  z-index: 1;
+}
+
+::view-transition-old(*),
+::view-transition-new(*) {
+  height: 100%;
 }
