@@ -41,7 +41,7 @@ const projects: Project[] = [
     id: "welcome",
     label: "Welcome!",
     summary:
-      "Hi! I’m Rebecca. I’m a coder and an artist. This is my playground for learning the most in-demand skills, as well as having fun. Let me know if you want to work together :)",
+      "Hi! I’m Rebecca. I’m a coder and an artist. This is my playground for learning the most in-demand skills, as well as having fun. Let’s work together :)",
     stack: [],
     image: { src: portrait, alt: "Pixel art portrait of Rebecca" },
     links: [
@@ -366,7 +366,7 @@ export default function App() {
 
   return (
     <main className="page">
-      <h1>Rebecca Harris</h1>
+      <h1>R.M. Harris</h1>
 
       <nav className="tabs" role="tablist" aria-label="Projects">
         {projects.map((p) => (
@@ -392,11 +392,19 @@ export default function App() {
       >
         <div className={current.image ? "intro" : undefined}>
           {current.image && (
-            <img
-              className="portrait"
-              src={current.image.src}
-              alt={current.image.alt}
-            />
+            <figure style={{ margin: 0, flexShrink: 0 }}>
+              <img
+                className="portrait"
+                src={current.image.src}
+                alt={current.image.alt}
+              />
+              <figcaption style={{ fontSize: "0.75rem", opacity: 0.7, marginTop: 4 }}>
+                Made by hand with{" "}
+                <a href="https://www.pixilart.com/" target="_blank" rel="noreferrer">
+                  pixilart.com
+                </a>
+              </figcaption>
+            </figure>
           )}
           <div className="text">
             <h2>{current.label}</h2>
