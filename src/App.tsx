@@ -1,5 +1,10 @@
-import { useEffect, useState, type ReactNode } from "react";
-import { flushSync } from "react-dom";
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import portrait from "./pixil-frame-0.png";
 
 type Link = {
@@ -313,11 +318,6 @@ const projects: Project[] = [
   },
 ];
 
-function tabFromHash(): string {
-  const hash = window.location.hash.slice(1);
-  return projects.some((p) => p.id === hash) ? hash : projects[0].id;
-}
-
 function SectionBlock({
   section,
   level,
@@ -376,129 +376,211 @@ function SectionBlock({
   );
 }
 
-export default function App() {
-  const [active, setActive] = useState<string>(tabFromHash);
+function ProjectContent({ project }: { project: Project }) {
+  return (
+    <div className={project.image ? "intro" : undefined}>
+      {project.image && (
+        <figure style={{ margin: 0, flexShrink: 0 }}>
+          <img
+            className="portrait"
+            src={project.image.src}
+            alt={project.image.alt}
+          />
+          <figcaption style={{ fontSize: "0.75rem", opacity: 0.7, marginTop: 4 }}>
+            Made by hand with{" "}
+            <a href="https://www.pixilart.com/" target="_blank" rel="noreferrer">
+              pixilart.com
+            </a>
+          </figcaption>
+        </figure>
+      )}
+      <div className="text">
+        <h2>{project.label}</h2>
+        {(Array.isArray(project.summary)
+          ? project.summary
+          : [project.summary]
+        ).map((paragraph) => (
+          <p key={paragraph}>{paragraph}</p>
+        ))}
+        {project.content}
+        {project.links && (
+          <ul className="links">
+            {project.links.map((l) => (
+              <li key={l.label}>
+                {l.label}:{" "}
+                <a
+                  href={l.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  download={l.download || undefined}
+                >
+                  {l.text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+        {project.stack.length > 0 && (
+          <ul className="stack">
+            {project.stack.map((s) => (
+              <li key={s}>{s}</li>
+            ))}
+          </ul>
+        )}
+        {project.sections?.map((section) => (
+          <SectionBlock key={section.title} section={section} level="h3" />
+        ))}
+        {project.groups?.map((group) => (
+          <div className="group" key={group.heading}>
+            <h3>{group.heading}</h3>
+            {group.sections.map((section) => (
+              <SectionBlock
+                key={section.title}
+                section={section}
+                level="h4"
+              />
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
+const prefersReducedMotion = () =>
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+export default function App() {
+  const [active, setActive] = useState<string>(projects[0].id);
+  const [indicator, setIndicator] = useState({ x: 0, y: 0, w: 0, h: 0 });
+  const [animate, setAnimate] = useState(false);
+  const navRef = useRef<HTMLElement>(null);
+  const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  // While a clicked scroll is in progress, don't let scroll-spy override the clicked tab
+  const lockUntil = useRef(0);
+
+  // Scroll-spy: highlight the section currently under the sticky menu
   useEffect(() => {
-    const onHashChange = () => setActive(tabFromHash());
-    window.addEventListener("hashchange", onHashChange);
-    return () => window.removeEventListener("hashchange", onHashChange);
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      if (Date.now() < lockUntil.current) return;
+      const line = (navRef.current?.getBoundingClientRect().bottom ?? 0) + 48;
+      const atBottom =
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 2;
+      let current = projects[0].id;
+      if (atBottom) {
+        current = projects[projects.length - 1].id;
+      } else {
+        for (const p of projects) {
+          const el = document.getElementById(p.id);
+          if (el && el.getBoundingClientRect().top <= line) current = p.id;
+        }
+      }
+      setActive(current);
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    const onScrollEnd = () => {
+      lockUntil.current = 0;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("scrollend", onScrollEnd);
+    window.addEventListener("resize", onScroll);
+    update();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("scrollend", onScrollEnd);
+      window.removeEventListener("resize", onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
   }, []);
 
-  const current = projects.find((p) => p.id === active) ?? projects[0];
-
-  const select = (id: string) => {
-    const update = () => {
-      flushSync(() => setActive(id));
-      window.location.hash = id;
-    };
-    // Glide the active-tab rectangle with a view transition when supported
-    const start = (
-      document as unknown as {
-        startViewTransition?: (cb: () => void) => unknown;
+  // Measure the active tab so the outlined rectangle can glide to it
+  useLayoutEffect(() => {
+    const measure = () => {
+      const tab = tabRefs.current[active];
+      if (tab) {
+        setIndicator({
+          x: tab.offsetLeft,
+          y: tab.offsetTop,
+          w: tab.offsetWidth,
+          h: tab.offsetHeight,
+        });
       }
-    ).startViewTransition;
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (start && !reduceMotion) {
-      start.call(document, update);
-    } else {
-      update();
-    }
+    };
+    measure();
+    const nav = navRef.current;
+    const ro = new ResizeObserver(measure);
+    if (nav) ro.observe(nav);
+    document.fonts?.ready.then(measure);
+    return () => ro.disconnect();
+  }, [active]);
+
+  // Turn on the glide only after the first measurement (no slide-in on page load)
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setAnimate(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
+
+  const goTo = (id: string, smooth = true) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const navHeight = navRef.current?.offsetHeight ?? 0;
+    const top = el.getBoundingClientRect().top + window.scrollY - navHeight;
+    lockUntil.current = Date.now() + 1200;
+    setActive(id);
+    history.replaceState(null, "", `#${id}`);
+    window.scrollTo({
+      top,
+      behavior: smooth && !prefersReducedMotion() ? "smooth" : "auto",
+    });
   };
+
+  // Support links like /#voxxy
+  useEffect(() => {
+    const id = window.location.hash.slice(1);
+    if (projects.some((p) => p.id === id)) goTo(id, false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <main className="page">
       <h1>R.M. Harris</h1>
 
-      <nav className="tabs" role="tablist" aria-label="Projects">
+      <nav className="tabs" ref={navRef} aria-label="Sections">
+        <span
+          className={animate ? "tab-indicator animate" : "tab-indicator"}
+          aria-hidden="true"
+          style={{
+            transform: `translate(${indicator.x}px, ${indicator.y}px)`,
+            width: indicator.w,
+            height: indicator.h,
+          }}
+        />
         {projects.map((p) => (
           <button
             key={p.id}
-            role="tab"
+            ref={(el) => {
+              tabRefs.current[p.id] = el;
+            }}
             id={`tab-${p.id}`}
-            aria-selected={p.id === current.id}
-            aria-controls={`panel-${p.id}`}
-            className={p.id === current.id ? "tab active" : "tab"}
-            onClick={() => select(p.id)}
+            aria-current={p.id === active ? "true" : undefined}
+            className={p.id === active ? "tab active" : "tab"}
+            onClick={() => goTo(p.id)}
           >
             {p.label}
           </button>
         ))}
       </nav>
 
-      <section
-        className="panel"
-        role="tabpanel"
-        id={`panel-${current.id}`}
-        aria-labelledby={`tab-${current.id}`}
-      >
-        <div className={current.image ? "intro" : undefined}>
-          {current.image && (
-            <figure style={{ margin: 0, flexShrink: 0 }}>
-              <img
-                className="portrait"
-                src={current.image.src}
-                alt={current.image.alt}
-              />
-              <figcaption style={{ fontSize: "0.75rem", opacity: 0.7, marginTop: 4 }}>
-                Made by hand with{" "}
-                <a href="https://www.pixilart.com/" target="_blank" rel="noreferrer">
-                  pixilart.com
-                </a>
-              </figcaption>
-            </figure>
-          )}
-          <div className="text">
-            <h2>{current.label}</h2>
-            {(Array.isArray(current.summary)
-              ? current.summary
-              : [current.summary]
-            ).map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
-            {current.content}
-            {current.links && (
-              <ul className="links">
-                {current.links.map((l) => (
-                  <li key={l.label}>
-                    {l.label}:{" "}
-                    <a
-                      href={l.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      download={l.download || undefined}
-                    >
-                      {l.text}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            )}
-            {current.stack.length > 0 && (
-              <ul className="stack">
-                {current.stack.map((s) => (
-                  <li key={s}>{s}</li>
-                ))}
-              </ul>
-            )}
-            {current.sections?.map((section) => (
-              <SectionBlock key={section.title} section={section} level="h3" />
-            ))}
-            {current.groups?.map((group) => (
-              <div className="group" key={group.heading}>
-                <h3>{group.heading}</h3>
-                {group.sections.map((section) => (
-                  <SectionBlock
-                    key={section.title}
-                    section={section}
-                    level="h4"
-                  />
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {projects.map((project) => (
+        <section key={project.id} id={project.id} className="panel">
+          <ProjectContent project={project} />
+        </section>
+      ))}
     </main>
   );
 }
