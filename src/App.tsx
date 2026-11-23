@@ -409,6 +409,55 @@ function SectionBlock({
   );
 }
 
+const COLLAPSIBLE_GROUPS = ["Toolkit", "Experience"];
+
+function GroupBlock({ group }: { group: Group }) {
+  const collapsible = COLLAPSIBLE_GROUPS.includes(group.heading);
+  const [open, setOpen] = useState(false);
+  const showSections = !collapsible || open;
+  return (
+    <div className="group">
+      <h3>{group.heading}</h3>
+      {collapsible && (
+        <button
+          type="button"
+          className="toggle"
+          onClick={() => setOpen(!open)}
+          aria-expanded={open}
+          style={{
+            background: "none",
+            border: "none",
+            color: "inherit",
+            font: "inherit",
+            padding: 0,
+            margin: "12px 0 0",
+            cursor: "pointer",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+          }}
+        >
+          {open ? "See less" : "See more"}
+          <span
+            aria-hidden="true"
+            style={{
+              display: "inline-block",
+              transition: "transform 0.2s",
+              transform: open ? "rotate(180deg)" : "none",
+            }}
+          >
+            ▾
+          </span>
+        </button>
+      )}
+      {showSections &&
+        group.sections.map((section) => (
+          <SectionBlock key={section.title} section={section} level="h4" />
+        ))}
+    </div>
+  );
+}
+
 function ProjectContent({ project }: { project: Project }) {
   return (
     <div className={project.image ? "intro" : undefined}>
@@ -464,16 +513,7 @@ function ProjectContent({ project }: { project: Project }) {
           <SectionBlock key={section.title} section={section} level="h3" />
         ))}
         {project.groups?.map((group) => (
-          <div className="group" key={group.heading}>
-            <h3>{group.heading}</h3>
-            {group.sections.map((section) => (
-              <SectionBlock
-                key={section.title}
-                section={section}
-                level="h4"
-              />
-            ))}
-          </div>
+          <GroupBlock key={group.heading} group={group} />
         ))}
       </div>
     </div>
