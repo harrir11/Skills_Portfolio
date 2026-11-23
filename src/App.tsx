@@ -321,6 +321,8 @@ function SectionBlock({
   level: "h3" | "h4";
 }) {
   const Heading = level;
+  const [open, setOpen] = useState(false);
+  const hasMore = Boolean(section.points && section.points.length > 0);
   return (
     <div className="section">
       <Heading>
@@ -334,31 +336,67 @@ function SectionBlock({
       </Heading>
       {section.meta && <p className="meta">{section.meta}</p>}
       {section.summary && <p>{section.summary}</p>}
-      {section.pointsHeading && (
-        <p className="points-heading">{section.pointsHeading}</p>
+      {hasMore && (
+        <button
+          type="button"
+          className="toggle"
+          onClick={() => setOpen(!open)}
+          aria-expanded={open}
+          style={{
+            background: "none",
+            border: "none",
+            color: "inherit",
+            font: "inherit",
+            padding: 0,
+            margin: "0 0 12px",
+            cursor: "pointer",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+          }}
+        >
+          {open ? "See less" : "See more"}
+          <span
+            aria-hidden="true"
+            style={{
+              display: "inline-block",
+              transition: "transform 0.2s",
+              transform: open ? "rotate(180deg)" : "none",
+            }}
+          >
+            ▾
+          </span>
+        </button>
       )}
-      {section.points && (
-        <ul className="points">
-          {section.points.map((point) =>
-            typeof point === "string" ? (
-              <li key={point}>{point}</li>
-            ) : (
-              <li key={point.label}>
-                <strong>
-                  {point.href ? (
-                    <a href={point.href} target="_blank" rel="noreferrer">
-                      {point.label}
-                    </a>
-                  ) : (
-                    point.label
-                  )}
-                  :
-                </strong>{" "}
-                {point.text}
-              </li>
-            )
+      {open && (
+        <>
+          {section.pointsHeading && (
+            <p className="points-heading">{section.pointsHeading}</p>
           )}
-        </ul>
+          {section.points && (
+            <ul className="points">
+              {section.points.map((point) =>
+                typeof point === "string" ? (
+                  <li key={point}>{point}</li>
+                ) : (
+                  <li key={point.label}>
+                    <strong>
+                      {point.href ? (
+                        <a href={point.href} target="_blank" rel="noreferrer">
+                          {point.label}
+                        </a>
+                      ) : (
+                        point.label
+                      )}
+                      :
+                    </strong>{" "}
+                    {point.text}
+                  </li>
+                )
+              )}
+            </ul>
+          )}
+        </>
       )}
       {section.stack.length > 0 && (
         <ul className="stack">
