@@ -48,7 +48,7 @@ const projects: Project[] = [
     id: "welcome",
     label: "Welcome!",
     summary:
-      "Hi! I’m Rebecca. I’m a coder and an artist. This is my playground for learning the most in-demand skills, as well as having fun. Let’s work together :)",
+      "Hi! I’m R.M. I’m a coder and an artist. This is my playground for learning the most in-demand skills, as well as having fun. Let’s work together :)",
     stack: [],
     //image: { src: portrait, alt: "Pixel art portrait of Rebecca" },
     links: [
