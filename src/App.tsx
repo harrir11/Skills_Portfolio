@@ -409,7 +409,7 @@ function SectionBlock({
   );
 }
 
-const COLLAPSIBLE_GROUPS = ["Toolkit", "Experience"];
+const COLLAPSIBLE_GROUPS = ["Toolkit", "Experience", "Education"];
 
 function GroupBlock({ group }: { group: Group }) {
   const collapsible = COLLAPSIBLE_GROUPS.includes(group.heading);
