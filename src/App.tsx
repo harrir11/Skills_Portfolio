@@ -280,12 +280,12 @@ const projects: Project[] = [
       },
     ],
   },
-  {
-    id: "blog",
-    label: "Blog",
-    summary: "My Substack is coming soon.",
-    stack: [],
-  },
+  // {
+    // id: "blog",
+    // label: "Blog",
+    // summary: "My Substack is coming soon.",
+    // stack: [],
+  // },
   {
     id: "sources",
     label: "Sources",
