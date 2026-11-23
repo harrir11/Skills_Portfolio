@@ -5,7 +5,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import portrait from "./pixil-frame-0.png";
+//import portrait from "./pixil-frame-0.png";
 
 type Link = {
   label: string;
@@ -50,7 +50,7 @@ const projects: Project[] = [
     summary:
       "Hi! I’m Rebecca. I’m a coder and an artist. This is my playground for learning the most in-demand skills, as well as having fun. Let’s work together :)",
     stack: [],
-    image: { src: portrait, alt: "Pixel art portrait of Rebecca" },
+    //image: { src: portrait, alt: "Pixel art portrait of Rebecca" },
     links: [
       {
         label: "Email",
@@ -227,21 +227,16 @@ const projects: Project[] = [
     id: "projects",
     label: "Projects",
     summary: [
-      "My background as a software developer has taught me the fundamentals of coding, agile development, API integration, cloud workflows on AWS, data pipelines and testing.",
-      "Now that we live in the AI Revolution, I\u2019ve been combining my past experience with new skills to pivot into AI engineering. I\u2019m also using projects to expand my knowledge in DevOps tools like Docker and Kubernetes. I\u2019m looking to contribute to open-source green AI projects.",
+      "My background as a software developer has taught me the fundamentals of coding, agile development, API integration, cloud workflows on AWS, data pipelines and testing. As the tech world pivots to AI development, I've aimed to cover new AI skills through independent projects"
     ],
     stack: [],
     sections: [
       {
-        title: "Container Fun",
-        summary: "Project write-up coming soon.",
-        stack: ["Docker", "Kubernetes"],
-      },
-      {
-        title: "LLM/RAG Project",
-        summary: "Project write-up coming soon.",
+        title: "Library of Alexandria",
+        href: "https://github.com/harrir11/Library_of_Alexandria",
+        summary: "RAG interactive game based on Gemini Notebook. You're starting your first day as an intern at the Library of Alexandra. Unfortunately, it's currently burning. Your boss won't let you leave until you finish some write ups for him. You must explore the library to collect the right sources for your LLM to generate a thoughtful, balanced take. Your boss will review it with his LLM (he's too tired to read). Collect enough sources, escape with your life!",
         stack: ["LLM", "RAG"],
-      },
+      }
     ],
   },
   {
