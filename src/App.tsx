@@ -53,18 +53,13 @@ const projects: Project[] = [
     //image: { src: portrait, alt: "Pixel art portrait of Rebecca" },
     links: [
       {
-        label: "Email",
-        text: "rebecca.mare.harris@gmail.com",
-        href: "mailto:rebecca.mare.harris@gmail.com",
-      },
-      {
         label: "GitHub",
         text: "harrir11",
         href: "https://github.com/harrir11",
       },
       {
         label: "LinkedIn",
-        text: "Rebecca Harris",
+        text: "R.M. Harris",
         href: "https://www.linkedin.com/in/rebecca-harris-846b711a7/",
       },
     ],
